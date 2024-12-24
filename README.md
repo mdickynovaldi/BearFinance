@@ -123,7 +123,7 @@ BearFinance is a modern, secure, and intelligent personal finance management app
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/bearfinance.git
+git clone https://github.com/mdickynovaldi/BearFinance.git
 cd bearfinance
 ```
 
