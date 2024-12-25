@@ -23,6 +23,7 @@ import { EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 import { supabaseDBConfig } from "@/app/config/supabase-db-config";
 import { toast } from "@/hooks/use-toast";
+import { AuthService } from "@/services/auth/auth.service";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,20 +41,27 @@ export default function SignUpPage() {
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
     try {
       setLoading(true);
-      const { data, error } = await supabaseDBConfig.auth.signUp({
-        email: values.email,
-        password: values.password,
-        options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/email-verification`,
-        },
-      });
+      const { data, error } = await AuthService.signUp(
+        values.email,
+        values.password
+      );
       if (error) {
         throw error;
       } else {
+        const response = await supabaseDBConfig.from("user_profiles").insert({
+          id: data.user?.id,
+          name: values.fullName,
+          profile_pic: "",
+        });
+        console.log(response);
+        if (response.error) {
+          throw response.error;
+        }
         toast({
           title: "Sign up successful",
           description: "Please check your email for verification",
         });
+        form.reset();
         console.log(data);
       }
     } catch (error) {

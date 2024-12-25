@@ -1,10 +1,16 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import Link from "next/link";
+import { EyeIcon } from "lucide-react";
+import { EyeOffIcon } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { signInSchema } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
 import {
   Form,
   FormControl,
@@ -15,19 +21,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { z } from "zod";
-import Link from "next/link";
-import { EyeIcon } from "lucide-react";
-import { EyeOffIcon } from "lucide-react";
-import { useState } from "react";
-import { supabaseDBConfig } from "@/app/config/supabase-db-config";
+import { AuthService } from "@/services/auth/auth.service";
 import { toast } from "@/hooks/use-toast";
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -39,20 +39,25 @@ export default function SignInPage() {
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
     try {
       setLoading(true);
-      const { data, error } = await supabaseDBConfig.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
+      const { data, error } = await AuthService.signIn(
+        values.email,
+        values.password
+      );
       if (error) {
+        toast({
+          title: "Sign in failed",
+          description: error.message,
+        });
         throw error;
       } else {
-        toast({
-          title: "Sign up successful",
-          description: "Please check your email for verification",
-        });
+        router.push("/");
         console.log(data);
       }
     } catch (error) {
+      toast({
+        title: "Sign in failed",
+        description: "Please check your email and password",
+      });
       console.log(error);
     } finally {
       setLoading(false);
@@ -124,10 +129,13 @@ export default function SignInPage() {
             <Button className="w-full" type="submit" disabled={loading}>
               {loading ? "Loading..." : "Sign Up"}
             </Button>
-            <Link className=" flex justify-end text-sm text-primary" href={"/auth/forgot-password"}>
+            <Link
+              className=" flex justify-end text-sm text-primary"
+              href={"/auth/forgot-password"}
+            >
               Forgot Password
-              </Link>
-            
+            </Link>
+
             <p className="text-sm text-center">
               Don't have an account? <Link href="/auth/sign-up">Sign Up</Link>
             </p>
