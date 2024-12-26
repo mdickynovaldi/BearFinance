@@ -127,7 +127,7 @@ export default function SignInPage() {
               )}
             />
             <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? "Loading..." : "Sign Up"}
+              {loading ? "Loading..." : "Sign In"}
             </Button>
             <Link
               className=" flex justify-end text-sm text-primary"
