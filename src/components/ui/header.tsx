@@ -39,9 +39,11 @@ export const Header = () => {
           </nav>
           <ModeToggle />
           <div className="flex items-center">
-            <Button variant="outline" className="ml-4">
-              Sign In
-            </Button>
+            <Link href="/auth/sign-in">
+              <Button variant="outline" className="ml-4">
+                Sign In
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

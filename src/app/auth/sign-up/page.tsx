@@ -21,7 +21,7 @@ import Link from "next/link";
 import { EyeIcon } from "lucide-react";
 import { EyeOffIcon } from "lucide-react";
 import { useState } from "react";
-import { supabaseDBConfig } from "@/app/config/supabase-db-config";
+import { supabaseDBConfig } from "@/config/supabase-db-config";
 import { toast } from "@/hooks/use-toast";
 import { AuthService } from "@/services/auth/auth.service";
 

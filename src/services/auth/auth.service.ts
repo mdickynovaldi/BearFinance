@@ -1,6 +1,25 @@
-import { supabaseDBConfig } from "@/app/config/supabase-db-config";
+import { supabaseDBConfig } from "@/config/supabase-db-config";
 
 export class AuthService {
+  static async getUserProfile(userId: string) {
+    const { data, error } = await supabaseDBConfig
+      .from("user_profiles")
+      .select("*")
+      .eq("id", userId)
+      .single();
+    return { data, error };
+  }
+
+  static async getUser() {
+    const { data, error } = await supabaseDBConfig.auth.getUser();
+    return { data, error };
+  }
+
+  static async isAuthenticated() {
+    const { data, error } = await supabaseDBConfig.auth.getSession();
+    return { data, error };
+  }
+
   static async signIn(email: string, password: string) {
     const { data, error } = await supabaseDBConfig.auth.signInWithPassword({
       email,

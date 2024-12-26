@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {  resetPasswordSchema } from "@/schemas/auth-schema";
+import { resetPasswordSchema } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -18,10 +18,9 @@ import { Input } from "@/components/ui/input";
 
 import { z } from "zod";
 import { useState } from "react";
-import { supabaseDBConfig } from "@/app/config/supabase-db-config";
+import { supabaseDBConfig } from "@/config/supabase-db-config";
 import { toast } from "@/hooks/use-toast";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-
 
 export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,8 +37,6 @@ export default function ResetPasswordPage() {
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     try {
       setLoading(true);
-      
-      
     } catch (error) {
       console.log(error);
     } finally {
@@ -56,7 +53,7 @@ export default function ResetPasswordPage() {
         <hr className="w-full border-slate-300 dark:border-slate-700 mb-8   " />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
+            <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -126,11 +123,10 @@ export default function ResetPasswordPage() {
                 </FormItem>
               )}
             />
-           
+
             <Button className="w-full" type="submit" disabled={loading}>
               {loading ? "Loading..." : "Reset Password"}
             </Button>
-            
           </form>
         </Form>
       </div>

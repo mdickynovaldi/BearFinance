@@ -21,8 +21,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthService } from "@/services/auth/auth.service";
 import { toast } from "@/hooks/use-toast";
+import { AuthSSRService } from "@/services/auth/authssr.service";
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +39,7 @@ export default function SignInPage() {
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
     try {
       setLoading(true);
-      const { data, error } = await AuthService.signIn(
+      const { data, error } = await AuthSSRService.signInWithPassword(
         values.email,
         values.password
       );

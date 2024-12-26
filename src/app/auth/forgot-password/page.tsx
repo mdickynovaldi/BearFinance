@@ -18,11 +18,10 @@ import { Input } from "@/components/ui/input";
 
 import { z } from "zod";
 import { useState } from "react";
-import { supabaseDBConfig } from "@/app/config/supabase-db-config";
+import { supabaseDBConfig } from "@/config/supabase-db-config";
 import { toast } from "@/hooks/use-toast";
 
 export default function ForgotPasswordPage() {
-
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
@@ -35,7 +34,9 @@ export default function ForgotPasswordPage() {
   const onSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
     try {
       setLoading(true);
-      const { data, error } = await supabaseDBConfig.auth.resetPasswordForEmail(values.email);
+      const { data, error } = await supabaseDBConfig.auth.resetPasswordForEmail(
+        values.email
+      );
       if (error) {
         throw error;
       } else {
@@ -79,11 +80,10 @@ export default function ForgotPasswordPage() {
                 </FormItem>
               )}
             />
-           
+
             <Button className="w-full" type="submit" disabled={loading}>
               {loading ? "Loading..." : "Reset Password"}
             </Button>
-            
           </form>
         </Form>
       </div>
