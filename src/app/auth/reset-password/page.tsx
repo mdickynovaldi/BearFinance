@@ -15,16 +15,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import { z } from "zod";
 import { useState } from "react";
-import { supabaseDBConfig } from "@/config/supabase-db-config";
 import { toast } from "@/hooks/use-toast";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { resetPassword } from "@/lib/users";
 
 export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
@@ -37,6 +41,15 @@ export default function ResetPasswordPage() {
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     try {
       setLoading(true);
+      const response = await resetPassword(code!, values.password);
+      if (response.success) {
+        toast({
+          title: "Reset password successful",
+          description: "Please login to continue",
+        });
+        form.reset();
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
     } finally {

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { forgotPasswordSchema } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { createClient } from "@/config/supabase-browser-config";
 
 import {
   Form,
@@ -18,7 +19,7 @@ import { Input } from "@/components/ui/input";
 
 import { z } from "zod";
 import { useState } from "react";
-import { supabaseDBConfig } from "@/config/supabase-db-config";
+
 import { toast } from "@/hooks/use-toast";
 
 export default function ForgotPasswordPage() {
@@ -34,17 +35,21 @@ export default function ForgotPasswordPage() {
   const onSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
     try {
       setLoading(true);
-      const { data, error } = await supabaseDBConfig.auth.resetPasswordForEmail(
-        values.email
+      const supabaseBrowser = createClient();
+      const { data, error } = await supabaseBrowser.auth.resetPasswordForEmail(
+        values.email,
+        {
+          redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/reset-password`,
+        }
       );
       if (error) {
         throw error;
       } else {
         toast({
-          title: "Sign up successful",
+          title: "Reset password successful",
           description: "Please check your email for verification",
         });
-        console.log(data);
+        form.reset();
       }
     } catch (error) {
       console.log(error);
