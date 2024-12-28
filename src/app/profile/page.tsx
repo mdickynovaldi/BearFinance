@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/config/supabase-server-config";
 
 export default async function ProfilePage() {
-  const { data, error } = await (await createClient()).auth.getUser();
+  const getUser = await createClient();
+  const { data, error } = await getUser.auth.getUser();
   let user = null;
 
   if (data) {

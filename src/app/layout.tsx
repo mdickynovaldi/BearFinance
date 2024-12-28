@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
 import { MainContent } from "@/components/ui/main-content";
+import LayoutProvider from "@/layout-provider";
 export const metadata: Metadata = {
   title: "Finance App",
   description: "Finance App",
@@ -26,11 +27,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col h-screen justify-between">
-              <Header />
+            <LayoutProvider>
               <MainContent>{children}</MainContent>
-              <Footer />
-            </div>
+            </LayoutProvider>
+
             <Toaster />
           </ThemeProvider>
         </body>
