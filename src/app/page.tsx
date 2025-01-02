@@ -1,7 +1,7 @@
 "use client";
 
 import Drawer from "@/components/ui/drawer";
-import { AuthSSRService } from "@/services/auth/authssr.service";
+import { getLoginUser } from "@/lib/users";
 
 import React from "react";
 import { useEffect } from "react";
@@ -18,12 +18,10 @@ export default function Home() {
   async function getUser() {
     try {
       setIsLoading(true);
-      const user = await AuthSSRService.getUser();
-      if (user.error) {
-        throw new Error(user.error.message);
+      const user: any = await getLoginUser();
+      if (user.data) {
+        setUser(user.data);
       }
-
-      setUser(user.data?.user);
     } catch (error) {
       console.error(error);
     } finally {

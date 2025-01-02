@@ -13,10 +13,9 @@ export default function Private({ children }: { children: React.ReactNode }) {
 
   const fetchUser = async () => {
     try {
-      console.log("fetchUser");
       setLoading(true);
       const response: any = await getLoginUser();
-      console.log(response);
+
       if (response.data) {
         setUser(response.data);
       }

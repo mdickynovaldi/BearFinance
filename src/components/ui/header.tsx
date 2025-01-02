@@ -1,7 +1,5 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { ModeToggle } from "./toogle-dark-mode";
+
 import { IUser } from "@/interfaces";
 
 export const Header = ({ user }: { user: IUser }) => {
@@ -11,9 +9,6 @@ export const Header = ({ user }: { user: IUser }) => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center">
             <Image src="/Bear.png" alt="Logo" width={100} height={100} />
-          </div>
-          <div className="flex items-center">
-            <h1 className="text-2xl font-bold">Hello {user?.name}</h1>
           </div>
         </div>
       </div>

@@ -27,15 +27,14 @@ export async function getLoginUser() {
   try {
     const supabaseServer = await createClient();
     const response = await supabaseServer.auth.getUser();
-    if (response.error) {
-      throw response.error;
-    }
 
     const userProfileResponse = await (await createClient())
       .from("user_profiles")
       .select("*")
       .eq("id", response.data.user?.id!)
       .single();
+
+    console.log(userProfileResponse.data);
 
     const user = { ...response.data.user, ...userProfileResponse.data };
     return { data: user };
