@@ -1,4 +1,4 @@
-import { HomeIcon, Settings, User } from "lucide-react";
+import { CreditCard, HomeIcon, Settings, User } from "lucide-react";
 import { Button } from "./button";
 import MinimalistDrawer from "./minimalist-drawer";
 import React from "react";
@@ -17,6 +17,7 @@ export default function Drawer() {
   const menuItems = [
     { name: "Home", href: "/", icon: HomeIcon },
     { name: "Profile", href: "/profile", icon: User },
+    { name: "Transactions", href: "/transactions", icon: CreditCard },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
@@ -66,6 +67,7 @@ export default function Drawer() {
             </li>
           ))}
         </ul>
+        <ModeToggle />
       </nav>
       <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
         <h3 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
